@@ -1,0 +1,24 @@
+{
+  "name": "giu-nexus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmarHisham16008286/giu-nexus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OmarHisham16008286/giu-nexus/issues"
+  },
+  "homepage": "https://github.com/OmarHisham16008286/giu-nexus#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "mongoose": "^9.4.1"
+  }
+}
