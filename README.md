@@ -6,11 +6,13 @@ A full-stack web application that helps GIU students find internships and jobs,
 while giving recruiters a smarter way to discover candidates — powered by AI.
 
  Team Members
-- Member 1 Name (Team Leader) — Project Setup
-- Member 2 Name — User Schema
-- Member 3 Name — JobPost Schema
-- Member 4 Name — Application Schema
-- Member 5 Name — Database Connection
+- Omar Hisham (Team Leader) 
+- Ahmed Walid 
+- Ahmed Sameh 
+- Seif Tarek
+- Adam Amr 
+- Youssef Samir
+- Ali hamed
 
  Tools used:
 - MongoDB + Mongoose
