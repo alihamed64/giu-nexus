@@ -6,7 +6,7 @@ const app = express();
 
 // simple test route
 app.get("/", (req, res) => {
-  res.send("WORKING ✅");
+  res.send("GIU Nexus backend is running");
 });
 
 const startServer = async () => {
