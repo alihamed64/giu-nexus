@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
     // Only meaningful when role === "recruiter"
     type: String,
     enum: ["pending", "approved", "rejected"],
-    default: "pending",
+    default: "approved",
   },
   createdAt: {
     type: Date,
