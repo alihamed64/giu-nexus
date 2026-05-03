@@ -33,6 +33,8 @@ const userSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["pending", "approved", "rejected"],
+    // Set conditions for the "pending"/"rejected" cases
+    // if role === recruiter... set to "pending"
     default: "approved",
   },
   createdAt: {
