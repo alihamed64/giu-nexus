@@ -31,10 +31,11 @@ const userSchema = new mongoose.Schema({
     default: "jobSeeker",
   },
   status: {
-    // Only meaningful when role === "recruiter"
     type: String,
     enum: ["pending", "approved", "rejected"],
-    default: "pending",
+    // Set conditions for the "pending"/"rejected" cases
+    // if role === recruiter... set to "pending"
+    default: "approved",
   },
   createdAt: {
     type: Date,
