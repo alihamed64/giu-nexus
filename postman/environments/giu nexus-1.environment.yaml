@@ -1,0 +1,11 @@
+name: giu nexus
+values:
+  - key: BASE_URL
+    value: ''
+  - key: TOKEN
+    value: ''
+  - key: JOB_ID
+    value: ''
+  - key: APP_ID
+    value: ''
+color: 240
