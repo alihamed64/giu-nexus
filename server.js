@@ -14,6 +14,8 @@ const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 
+app.all("/test-me", (req, res) => res.send("I can see this!"));
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -21,14 +23,15 @@ app.use(express.json());
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/profile", profileRoutes);
+app.use("/api/v1/profile",profileRoutes);
 app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/applications", applicationRoutes);
-javascriptapp.use("/api/v1/admin", require("./routes/userRoutes"));
+app.use("/api/v1/admin", require("./routes/userRoutes"));
 // Test route
 app.get("/", (req, res) => {
-  res.json({ success: true, message: "GIU Nexus backend is running" });
+  res.json({ success: true, message: "I AM WORKING" });
 });
+
 
 // Error handler — must be last
 app.use(errorHandler);
