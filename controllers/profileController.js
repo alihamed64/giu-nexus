@@ -63,11 +63,14 @@ const extractSkills = async (req, res) => {
         inputs: user.bio,
       });
 
-      // Filter for technology/org tags and clean up
-      const skills = result
-        .filter((entity) => ["B-MISC", "I-MISC", "B-ORG"].includes(entity.entity_group))
-        .map((entity) => entity.word.replace(/^##/, "").trim())
-        .filter((word) => word.length > 1);
+      
+
+  // Filter for technology/org tags and clean up
+    const skills = result
+      .filter((entity) => ["MISC", "ORG", "B-MISC", "I-MISC", "B-ORG", "I-ORG"].includes(entity.entity_group))
+      .map((entity) => entity.word.replace(/^##/, "").trim())
+      .filter((word) => word.length > 1);
+
 
       // Remove duplicates
       const uniqueSkills = [...new Set(skills)];
