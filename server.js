@@ -24,8 +24,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/applications", applicationRoutes);
-app.use("/api/v1/admin", adminRoutes);
-
+javascriptapp.use("/api/v1/admin", require("./routes/userRoutes"));
 // Test route
 app.get("/", (req, res) => {
   res.json({ success: true, message: "GIU Nexus backend is running" });
