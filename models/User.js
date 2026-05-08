@@ -51,4 +51,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+savedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "JobPost" }],
+
 module.exports = User;

@@ -125,4 +125,121 @@ const deleteJob = async (req, res) => {
   }
 };
 
-module.exports = { getAllJobs, createJob, getJobById, updateJob, deleteJob };
+// GET /api/v1/jobs/recommended
+const getRecommendedJobs = async (req, res) => {
+  try {
+    const user = req.user;
+    const openJobs = await JobPost.find({ status: "open" });
+
+    if (!user.skills || user.skills.length === 0) {
+      return res.status(200).json({ success: true, jobs: openJobs });
+    }
+
+    const studentText = user.skills.join(", ");
+    const jobTexts = openJobs.map((job) => `${job.title} ${job.requirements.join(" ")}`);
+
+    try {
+      const embeddings = await hf.featureExtraction({
+        model: "sentence-transformers/all-MiniLM-L6-v2",
+        inputs: [studentText, ...jobTexts],
+      });
+
+      const cosineSimilarity = (vecA, vecB) => {
+        const dot = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+        const magA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+        const magB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+        return dot / (magA * magB);
+      };
+
+      const studentVec = embeddings[0];
+      const scoredJobs = openJobs.map((job, i) => ({
+        ...job.toObject(),
+        score: cosineSimilarity(studentVec, embeddings[i + 1]),
+      }));
+
+      scoredJobs.sort((a, b) => b.score - a.score);
+      res.status(200).json({ success: true, jobs: scoredJobs });
+    } catch (aiError) {
+      console.error("Embedding failed, returning all open jobs:", aiError.message);
+      res.status(200).json({ success: true, jobs: openJobs });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// GET /api/v1/jobs/my-jobs
+const getMyJobs = async (req, res) => {
+  try {
+    const jobs = await JobPost.find({ createdBy: req.user._id });
+    res.status(200).json({ success: true, jobs });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// GET /api/v1/jobs/saved
+const getSavedJobs = async (req, res) => {
+  try {
+    const user = await require("../models/User").findById(req.user._id).populate("savedJobs");
+    res.status(200).json({ success: true, jobs: user.savedJobs });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// POST /api/v1/jobs/:id/save
+const toggleSaveJob = async (req, res) => {
+  try {
+    const job = await JobPost.findById(req.params.id);
+    if (!job) return res.status(404).json({ success: false, message: "Job not found" });
+
+    if (job.status === "closed") {
+      return res.status(400).json({ success: false, message: "Cannot save a closed job" });
+    }
+
+    const User = require("../models/User");
+    const user = await User.findById(req.user._id);
+    const alreadySaved = user.savedJobs.includes(req.params.id);
+
+    if (alreadySaved) {
+      user.savedJobs = user.savedJobs.filter((id) => id.toString() !== req.params.id);
+      await user.save();
+      return res.status(200).json({ success: true, message: "Job removed from saved", saved: false });
+    } else {
+      user.savedJobs.push(req.params.id);
+      await user.save();
+      return res.status(200).json({ success: true, message: "Job saved", saved: true });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// GET /api/v1/jobs/:jobId/applicants
+const getApplicants = async (req, res) => {
+  try {
+    const job = await JobPost.findById(req.params.jobId);
+    if (!job) return res.status(404).json({ success: false, message: "Job not found" });
+
+    if (job.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ success: false, message: "Not authorised to view applicants" });
+    }
+
+    const Application = require("../models/Application");
+    const applications = await Application.find({ job: req.params.jobId }).populate(
+      "user",
+      "name email skills"
+    );
+
+    res.status(200).json({ success: true, applications });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+module.exports = {
+  getAllJobs, createJob, getJobById, updateJob, deleteJob,
+  getRecommendedJobs, getMyJobs, getSavedJobs, toggleSaveJob, getApplicants
+};
