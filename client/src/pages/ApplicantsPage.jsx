@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
@@ -68,4 +69,3 @@ const ApplicantsPage = () => {
   );
 };
 
-export default ApplicantsPage;
