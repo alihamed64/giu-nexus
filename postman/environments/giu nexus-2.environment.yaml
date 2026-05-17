@@ -1,0 +1,10 @@
+name: giu nexus
+values:
+  - key: APP_ID
+    value: ''
+  - key: JOB_ID
+    value: ''
+  - key: TOKEN
+    value: ''
+  - key: BASE_URL
+    value: 'http://localhost:5000/api/v1'

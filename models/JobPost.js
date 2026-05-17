@@ -36,7 +36,7 @@ const jobPostSchema = new mongoose.Schema({
   },
   totalSlots: {
     type: Number,
-    required: true,
+    default: 1
   },
   status: {
     type: String,
