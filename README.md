@@ -13,6 +13,7 @@ while giving recruiters a smarter way to discover candidates — powered by AI.
 - Adam Amr 
 - Youssef Samir
 - Ali hamed
+- Abdulrahman Walid
 
  Tools used:
 - MongoDB + Mongoose
