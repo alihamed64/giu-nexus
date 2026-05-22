@@ -1,3 +1,5 @@
+const { protect, authorize } = require("./middleware/auth");
+const { getAdminStats } = require("./controllers/userController");
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -21,17 +23,24 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+
+// ==========================================================
+// THE FIX: Placed at the top so Express matches this exact 
+// endpoint string before running into generic router wildcards
+// ==========================================================
+app.get("/api/v1/admin/stats", protect, authorize("admin"), getAdminStats);
+
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/profile",profileRoutes);
 app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/applications", applicationRoutes);
 app.use("/api/v1/admin", require("./routes/userRoutes"));
+
 // Test route
 app.get("/", (req, res) => {
   res.json({ success: true, message: "I AM WORKING" });
 });
-
 
 // Error handler — must be last
 app.use(errorHandler);

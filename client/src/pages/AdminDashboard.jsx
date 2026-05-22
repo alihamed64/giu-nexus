@@ -6,10 +6,23 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+ useEffect(() => {
     api.get("/admin/stats")
-      .then(res => setStats(res.data.stats))
-      .catch(console.error)
+      .then(res => {
+        console.log("--- DEBUGGING API RESPONSE ---");
+        console.log("Response Data:", res.data);
+        
+        // FIX IS HERE: Pass res.data.stats instead of just res.data!
+        if (res.data && res.data.stats) {
+          setStats(res.data.stats);
+        } else {
+          setStats(res.data); // Fallback case
+        }
+      })
+      .catch(err => {
+        console.error("--- API FETCH FAILED ---");
+        console.error(err);
+      })
       .finally(() => setLoading(false));
   }, []);
 

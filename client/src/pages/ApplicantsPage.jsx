@@ -69,3 +69,4 @@ const ApplicantsPage = () => {
   );
 };
 
+export default ApplicantsPage;

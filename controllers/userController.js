@@ -86,7 +86,7 @@ const getAdminStats = async (req, res) => {
           as: "job",
         },
       },
-      { $unwind: "$job" },
+      { $unwind: { path: "$job"} },
       {
         $project: {
           _id: "$job._id",
@@ -102,6 +102,7 @@ const getAdminStats = async (req, res) => {
       stats: { usersByRole, jobsByStatus, appsByStatus, topJobs },
     });
   } catch (error) {
+    console.error("Admin stats error:", error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };
