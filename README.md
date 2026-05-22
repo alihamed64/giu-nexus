@@ -13,7 +13,8 @@ A full-stack web application that helps GIU students find internships and jobs, 
 ## Project Structure
 - `models/` — Mongoose schemas (User, JobPost, Application)
 - `db/` — MongoDB connection setup
-
+Front end in /client
+Backend in root server.js
 ## Contributors
 
 - [Omar Hisham](https://github.com/OmarHisham16008286/giu-nexus/commits?author=OmarHisham16008286)
