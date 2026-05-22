@@ -3,6 +3,7 @@
 GIU Nexus — AI-Powered Career & Talent Platform
 
 A full-stack web application that helps GIU students find internships and jobs, while giving recruiters a smarter way to discover candidates — powered by AI.
+front end in client/ Backend in server.js
 
 ## Tools Used
 - MongoDB + Mongoose
